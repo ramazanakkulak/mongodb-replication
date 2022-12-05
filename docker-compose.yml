@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  mongo1:
+    container_name: mongo1
+    image: mongo:4.4
+    networks:
+      - mongo-network
+    ports:
+      - 27020:27017
+    restart: always
+    depends_on:
+      - mongo2
+      - mongo3
+    links:
+      - mongo2
+      - mongo3
+    entrypoint: ['/usr/bin/mongod', '--bind_ip_all', '--replSet', 'dbrs']
+    volumes:
+      - ./scripts/init.sh:/scripts/init.sh
+      - ./storage-data/rs_db1:/data/db
+    healthcheck:
+      test: ['CMD', 'mongo', '--eval', "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongo2:
+    container_name: mongo2
+    image: mongo:4.4
+    networks:
+      - mongo-network
+    ports:
+      - 27021:27017
+    restart: always
+    entrypoint: ['/usr/bin/mongod', '--bind_ip_all', '--replSet', 'dbrs']
+    volumes:
+      - ./storage-data/rs_db2:/data/db
+    healthcheck:
+      test: ['CMD', 'mongo', '--eval', "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongo3:
+    container_name: mongo3
+    image: mongo:4.4
+    networks:
+      - mongo-network
+    ports:
+      - 27022:27017
+    restart: always
+    entrypoint: ['/usr/bin/mongod', '--bind_ip_all', '--replSet', 'dbrs']
+    volumes:
+      - ./storage-data/rs_db3:/data/db
+    healthcheck:
+      test: ['CMD', 'mongo', '--eval', "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  rs_db1: ~
+  rs_db2: ~
+  rs_db3: ~
+
+networks:
+  mongo-network:
+    driver: bridge
