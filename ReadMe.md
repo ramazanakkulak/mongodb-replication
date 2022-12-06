@@ -13,6 +13,7 @@
 `./stop.sh`
 
 ####Replica Set Configuration
+```
     {
 				"_id": "dbrs",
 				"version": 1,
@@ -34,3 +35,4 @@
 					}
 				]
       }
+```
