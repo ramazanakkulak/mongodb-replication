@@ -29,7 +29,7 @@ Docker is a powerful containerization platform that facilitates the process of c
 ### **1. Clone this repository:**
 
    ```bash
-   git clone https://github.com/ramazanakkulak/replication-mongodb
+   git clone https://github.com/ramazanakkulak/mongodb-replication
    ```
 
 ### **2. Start the project:**
